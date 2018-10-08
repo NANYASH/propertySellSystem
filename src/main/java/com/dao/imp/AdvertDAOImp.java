@@ -12,7 +12,6 @@ import java.util.List;
 @Repository
 public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
 
-
     @Override
     public Advert findById(long id) {
         return super.findById(Advert.class,id);

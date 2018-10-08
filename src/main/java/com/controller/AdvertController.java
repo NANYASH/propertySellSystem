@@ -2,7 +2,6 @@ package com.controller;
 
 
 import com.entity.Advert;
-import com.entity.User;
 import com.exeption.BadRequestExeption;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,10 +18,8 @@ import java.io.IOException;
 
 @Controller
 public class AdvertController {
-
     private FindMe findMe;
     private ObjectMapper mapper;
-
 
     @Autowired
     public AdvertController(FindMe findMe) {
