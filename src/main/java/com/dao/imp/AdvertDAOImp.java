@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 import java.util.List;
 
+@Transactional
 @Repository
 public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
 
@@ -17,9 +18,9 @@ public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
         return super.findById(Advert.class,id);
     }
 
-    @Transactional
     @Override
     public void delete(Advert advert) {
-       getEntityManager().detach(advert);
+        getEntityManager().remove(
+                getEntityManager().contains(advert) ? advert : getEntityManager().merge(advert));
     }
 }

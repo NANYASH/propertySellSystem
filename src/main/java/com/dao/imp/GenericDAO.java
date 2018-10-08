@@ -27,7 +27,7 @@ public class GenericDAO<T> {
 
     public T delete(Class<T> c,long id) {
         T t = getEntityManager().find(c, id);
-        getEntityManager().remove(t);
+        getEntityManager().detach(t);
         return t;
     }
 

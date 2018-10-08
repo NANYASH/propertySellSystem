@@ -27,7 +27,6 @@ public class UserServiceImp implements UserService {
             return userDAO.save(user);
         }
         throw new BadRequestExeption("User \"" + user.getUsername() + "\" already exists");
-
     }
 
     @Override

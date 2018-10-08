@@ -81,7 +81,7 @@ public class User implements Serializable{
         isLoggedIn = loggedIn;
     }
 
-    @OneToMany(targetEntity = Advert.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "author")
+    @OneToMany(targetEntity = Advert.class, fetch = FetchType.EAGER, mappedBy = "author")
     List<Advert> getAdverts() {
         return adverts;
     }

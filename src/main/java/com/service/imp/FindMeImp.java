@@ -29,7 +29,8 @@ public class FindMeImp implements FindMe {
 
     @Override
     public Advert addAdvert(String username, Advert advert) throws BadRequestExeption {
-        userService.authenticate(username);
+        User author = userService.authenticate(username);
+        advert.setAuthor(author);
         return advertDAO.save(advert);
     }
 

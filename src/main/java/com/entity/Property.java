@@ -111,4 +111,17 @@ public class Property {
         result = 31 * result + (propertyType != null ? propertyType.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Property{" +
+                "id=" + id +
+                ", area=" + area +
+                ", roomsQuantity=" + roomsQuantity +
+                ", region='" + region + '\'' +
+                ", city='" + city + '\'' +
+                ", propertyType=" + propertyType +
+                ", propertyClass=" + propertyClass +
+                '}';
+    }
 }

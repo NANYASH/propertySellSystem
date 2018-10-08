@@ -2,9 +2,11 @@ package com.entity;
 
 
 import com.entity.enums.Currency;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "ADVERT2")
@@ -14,8 +16,10 @@ public class Advert {
     private String description;
     private Integer price;
     private Currency currency;
-    private LocalDateTime availableFromDate;
-    private LocalDateTime availableToDate;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date availableFromDate;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date availableToDate;
     private User author;
     private Property property;
 
@@ -69,24 +73,24 @@ public class Advert {
     }
 
     @Column(name = "AVAILABLE_FROM_DATE")
-    public LocalDateTime getAvailableFromDate() {
+    public Date getAvailableFromDate() {
         return availableFromDate;
     }
 
-    public void setAvailableFromDate(LocalDateTime availableFromDate) {
+    public void setAvailableFromDate(Date availableFromDate) {
         this.availableFromDate = availableFromDate;
     }
 
     @Column(name = "AVAILABLE_TO_DATE")
-    public LocalDateTime getAvailableToDate() {
+    public Date getAvailableToDate() {
         return availableToDate;
     }
 
-    public void setAvailableToDate(LocalDateTime availableToDate) {
+    public void setAvailableToDate(Date availableToDate) {
         this.availableToDate = availableToDate;
     }
 
-    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "ID_USER")
     public User getAuthor() {
         return author;
@@ -104,5 +108,20 @@ public class Advert {
 
     public void setProperty(Property property) {
         this.property = property;
+    }
+
+    @Override
+    public String toString() {
+        return "Advert{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", currency=" + currency +
+                ", availableFromDate=" + availableFromDate +
+                ", availableToDate=" + availableToDate +
+                ", author=" + author +
+                ", property=" + property +
+                '}';
     }
 }

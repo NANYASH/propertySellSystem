@@ -5,9 +5,52 @@
     "firstName": "Anastasiia",
     "lastName": "Sharaievska",
     "phone": "0987275607"
+  },
+  "advert": {
+    "title": "Apartment",
+    "description": "with furniture",
+    "price": "200000",
+    "currency": "USD",
+    "availableFromDate": "12/09/2018",
+    "availableToDate": "09/10/2018",
+    "author": {
+      "id": 7
+    },
+    "property": {
+      "area": 200,
+      "roomsQuantity": 4,
+      "region": "Kiev",
+      "city": "Kiev",
+      "propertyType": "APARTMENT",
+      "propertyClass": "BUSINESS"
+    },
+
+
+  "advert": {
+    "id": "3",
+    "title": "Apartment",
+    "description": "with furniture",
+    "price": "200000",
+    "currency": "USD",
+    "availableFromDate": "12/09/2018",
+    "availableToDate": "09/10/2018",
+    "author": {
+      "id": 7
+    },
+    "property": {
+      "id": 1,
+      "area": 200,
+      "roomsQuantity": 4,
+      "region": "Kiev",
+      "city": "Kiev",
+      "propertyType": "APARTMENT",
+      "propertyClass": "BUSINESS"
+    }
   }
 }
 
+
+}
 
 
 
