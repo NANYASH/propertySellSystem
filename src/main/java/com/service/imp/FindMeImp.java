@@ -1,0 +1,66 @@
+package com.service.imp;
+
+
+import com.dao.AdvertDAO;
+import com.entity.Advert;
+import com.entity.Property;
+import com.entity.User;
+import com.entity.enums.PropertyClass;
+import com.exeption.BadRequestExeption;
+import com.service.FindMe;
+import com.service.PropertyService;
+import com.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class FindMeImp implements FindMe {
+    private AdvertDAO advertDAO;
+    private UserService userService;
+
+    @Autowired
+    public FindMeImp(AdvertDAO advertDAO, UserService userService, PropertyService propertyService) {
+        this.advertDAO = advertDAO;
+        this.userService = userService;
+    }
+
+
+    @Override
+    public Advert addAdvert(String username, Advert advert) throws BadRequestExeption {
+        userService.authenticate(username);
+        return advertDAO.save(advert);
+    }
+
+    @Override
+    public Advert editAdvert(String username, Advert advert) throws BadRequestExeption {
+        User author = userService.authenticate(username);
+        validateAdvert(advert.getId(),author);
+        return advertDAO.update(advert);
+    }
+
+    @Override
+    public void deleteAdvert(String username, Long id) throws BadRequestExeption {
+        User author = userService.authenticate(username);
+        Advert advertToDelete = validateAdvert(id,author);
+        advertDAO.delete(advertToDelete);
+
+    }
+
+
+    public List<Advert> filterListByClass(List<Advert> filteredByTypeList,PropertyClass propertyClass) {
+         filteredByTypeList.stream().filter(advert -> advert.getProperty().equals(propertyClass));
+         return filteredByTypeList;
+    }
+
+
+    private Advert validateAdvert(Long id,User user) throws BadRequestExeption {
+        Advert advertToUpdate = advertDAO.findById(id);
+        if (advertToUpdate == null)
+            throw new BadRequestExeption("Advert does not exist");
+        if (!advertToUpdate.getAuthor().equals(user))
+            throw new BadRequestExeption("User \"" + user.getUsername() + "\" is not an author of such advert");
+        return advertToUpdate;
+    }
+}
