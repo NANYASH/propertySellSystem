@@ -19,7 +19,6 @@ public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
 
     @Override
     public void delete(Advert advert) {
-        getEntityManager().remove(
-                getEntityManager().contains(advert) ? advert : getEntityManager().merge(advert));
+        getEntityManager().remove(getEntityManager().contains(advert) ? advert : getEntityManager().merge(advert));
     }
 }
