@@ -45,7 +45,7 @@ public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
         CriteriaQuery<Advert> criteria = builder.createQuery(Advert.class);
 
         Root<Advert> root = criteria.from(Advert.class);
-        Join<Advert, Property> join;
+        Join<Advert, Property> join = root.join("property");
 
         Predicate predicate = builder.conjunction();
 
@@ -57,7 +57,7 @@ public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
                 .collect(Collectors.toSet());
 
         for (String param : params) {
-            join = root.join("property");
+
             if (param.equals("description")) {
                 predicate = builder.and(predicate, builder.like(root.get(param), filterParms.get(param).toString()));
                 continue;
@@ -65,7 +65,7 @@ public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
             predicate = builder.and(predicate, builder.equal(join.get(param), filterParms.get(param)));
         }
         if (filter.getPropertyType() != null)
-            predicate = builder.and(predicate, builder.like(root.get("type"),filterParms.get("type").toString()));
+            predicate = builder.and(predicate, builder.like(join.get("propertyType"),filterParms.get("propertyType").toString()));
 
         if (predicate != null)
             return getEntityManager().createQuery(criteria.select(root).where(predicate)).getResultList();
