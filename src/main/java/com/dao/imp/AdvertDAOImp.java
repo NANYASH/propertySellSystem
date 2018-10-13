@@ -59,8 +59,6 @@ public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
                 .map(param -> param.getKey())
                 .collect(Collectors.toSet());
 
-        predicate = builder.and(predicate, builder.between(builder.currentDate(),root.get("availableFromDate"),root.get("availableToDate")));
-
         for (String param : params) {
             if (param.equals("description")) {
                 predicate = builder.and(predicate, builder.like(root.get(param), "%"+filterParms.get(param)+"%"));
@@ -71,6 +69,8 @@ public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
         if (filter.getPropertyType() != null)
             predicate = builder.and(predicate, builder.equal(join.get("propertyType"),filter.getPropertyType()));
 
-        return getEntityManager().createQuery(criteria.select(root).where(predicate)).getResultList();
+        predicate = builder.and(predicate, builder.between(builder.currentDate(),root.get("availableFromDate"),root.get("availableToDate")));
+
+        return getEntityManager().createQuery(criteria.select(root).where(predicate)).setMaxResults(100).getResultList();
     }
 }
