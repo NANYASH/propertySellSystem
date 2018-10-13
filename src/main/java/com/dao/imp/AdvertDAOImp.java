@@ -5,6 +5,7 @@ import com.entity.Advert;
 import com.entity.Property;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.util.Filter;
+import org.hibernate.sql.Alias;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.*;
@@ -47,6 +48,7 @@ public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
         Root<Advert> root = criteria.from(Advert.class);
         Join<Advert, Property> join = root.join("property");
 
+
         Predicate predicate = builder.conjunction();
 
         Set<String> params = filterParms.entrySet().stream()
@@ -65,7 +67,7 @@ public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
             predicate = builder.and(predicate, builder.equal(join.get(param), filterParms.get(param)));
         }
         if (filter.getPropertyType() != null)
-            predicate = builder.and(predicate, builder.like(join.get("propertyType"),filterParms.get("propertyType").toString()));
+            predicate = builder.and(predicate, builder.equal(join.get("propertyType"),filter.getPropertyType()));
 
         if (predicate != null)
             return getEntityManager().createQuery(criteria.select(root).where(predicate)).getResultList();
