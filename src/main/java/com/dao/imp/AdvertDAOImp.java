@@ -5,14 +5,12 @@ import com.entity.Advert;
 import com.entity.Property;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.util.Filter;
-import org.hibernate.sql.Alias;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
