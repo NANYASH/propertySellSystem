@@ -47,7 +47,6 @@ public class Advert {
     @Getter @Setter
     private Date availableFromDate;
 
-
     @Column(name = "AVAILABLE_TO_DATE")
     @JsonFormat(pattern = "dd/MM/yyyy")
     @Getter @Setter

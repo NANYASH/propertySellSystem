@@ -15,6 +15,4 @@ public class Filter {
     private PropertyType propertyType;
     @Getter @Setter
     private PropertyClass propertyClass;
-
-
 }
