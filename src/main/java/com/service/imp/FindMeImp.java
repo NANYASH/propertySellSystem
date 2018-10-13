@@ -3,7 +3,6 @@ package com.service.imp;
 
 import com.dao.AdvertDAO;
 import com.entity.Advert;
-import com.entity.Property;
 import com.entity.User;
 import com.entity.enums.PropertyClass;
 import com.exeption.BadRequestExeption;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FindMeImp implements FindMe {
@@ -58,12 +58,11 @@ public class FindMeImp implements FindMe {
        return foundAdverts;
     }
 
-
     private List<Advert> filterListByClass(List<Advert> filteredByTypeList,PropertyClass propertyClass) {
-         filteredByTypeList.stream().filter(advert -> advert.getProperty().equals(propertyClass));
-         return filteredByTypeList;
+        return filteredByTypeList.stream()
+                 .filter(advert -> advert.getProperty().getPropertyClass().equals(propertyClass))
+                 .collect(Collectors.toList());
     }
-
 
     private Advert validateAdvert(Long id,User user) throws BadRequestExeption {
         Advert advertToUpdate = advertDAO.findById(id);
