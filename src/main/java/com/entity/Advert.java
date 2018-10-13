@@ -29,7 +29,7 @@ public class Advert {
     @Getter @Setter
     private String title;
 
-    @Column(name = "DESCRIPTION")
+    @Column(name = "DESCRIPTION",length = 200)
     @Getter @Setter
     private String description;
 
