@@ -52,6 +52,7 @@ public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
         Set<String> params = filterParms.entrySet().stream()
                 .filter(param -> param.getValue() != null)
                 .filter(param -> !param.getKey().equals("propertyClass"))
+                .filter(param -> !param.getKey().equals("propertyType"))
                 .map(param -> param.getKey())
                 .collect(Collectors.toSet());
 
@@ -63,6 +64,8 @@ public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
             }
             predicate = builder.and(predicate, builder.equal(join.get(param), filterParms.get(param)));
         }
+        if (filter.getPropertyType() != null)
+            predicate = builder.and(predicate, builder.like(root.get("type"),filterParms.get("type").toString()));
 
         if (predicate != null)
             return getEntityManager().createQuery(criteria.select(root).where(predicate)).getResultList();

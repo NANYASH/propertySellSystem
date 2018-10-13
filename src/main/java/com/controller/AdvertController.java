@@ -40,14 +40,14 @@ public class AdvertController {
         filter.setCity(city);
         filter.setDescription(description);
         try {
+            if (propertyType!=null)
             filter.setPropertyType(PropertyType.valueOf(propertyType.toUpperCase().trim()));
-            filter.getPropertyType();
-          //  filter.setPropertyClass(PropertyClass.valueOf(propertyClass.toUpperCase().trim()));
-        }catch (NullPointerException | IllegalArgumentException e){
+            if (propertyClass!=null)
+            filter.setPropertyClass(PropertyClass.valueOf(propertyClass.toUpperCase().trim()));
+        }catch (IllegalArgumentException e){
             e.printStackTrace();
-          //  throw new BadRequestExeption("Param Class/ParamType is/are  supposed to be incorrect type");
+            throw new BadRequestExeption("Params(Param Class or/and ParamType) is/are  supposed to be in incorrect type");
         }
-
         return findMe.findAdvertsByParams(filter).toString();
     }
 
