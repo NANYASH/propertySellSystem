@@ -5,7 +5,7 @@ import com.dao.AdvertDAO;
 import com.entity.Advert;
 import com.entity.User;
 import com.entity.enums.PropertyClass;
-import com.exeption.BadRequestExeption;
+import com.exeption.BadRequestException;
 import com.service.FindMe;
 import com.service.PropertyService;
 import com.service.UserService;
@@ -29,21 +29,21 @@ public class FindMeImp implements FindMe {
 
 
     @Override
-    public Advert addAdvert(String username, Advert advert) throws BadRequestExeption {
+    public Advert addAdvert(String username, Advert advert) throws BadRequestException {
         User author = userService.authenticate(username);
         advert.setAuthor(author);
         return advertDAO.save(advert);
     }
 
     @Override
-    public Advert editAdvert(String username, Advert advert) throws BadRequestExeption {
+    public Advert editAdvert(String username, Advert advert) throws BadRequestException {
         User author = userService.authenticate(username);
         validateAdvert(advert.getId(),author);
         return advertDAO.update(advert);
     }
 
     @Override
-    public void deleteAdvert(String username, Long id) throws BadRequestExeption {
+    public void deleteAdvert(String username, Long id) throws BadRequestException {
         User author = userService.authenticate(username);
         Advert advertToDelete = validateAdvert(id,author);
         advertDAO.delete(advertToDelete);
@@ -64,12 +64,12 @@ public class FindMeImp implements FindMe {
                  .collect(Collectors.toList());
     }
 
-    private Advert validateAdvert(Long id,User user) throws BadRequestExeption {
+    private Advert validateAdvert(Long id,User user) throws BadRequestException {
         Advert advertToUpdate = advertDAO.findById(id);
         if (advertToUpdate == null)
-            throw new BadRequestExeption("Advert does not exist");
+            throw new BadRequestException("Advert does not exist");
         if (!advertToUpdate.getAuthor().equals(user))
-            throw new BadRequestExeption("User \"" + user.getUsername() + "\" is not an author of such advert");
+            throw new BadRequestException("User \"" + user.getUsername() + "\" is not an author of such advert");
         return advertToUpdate;
     }
 }

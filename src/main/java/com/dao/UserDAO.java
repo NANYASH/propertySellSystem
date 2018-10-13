@@ -2,13 +2,13 @@ package com.dao;
 
 
 import com.entity.User;
-import com.exeption.BadRequestExeption;
+import com.exeption.BadRequestException;
 
 public interface UserDAO {
 
     User save(User user);
 
-    User findByUsername(String username) throws BadRequestExeption;
+    User findByUsername(String username) throws BadRequestException;
 
     User update(User user);
 

@@ -4,7 +4,7 @@ package com.controller;
 import com.entity.Advert;
 import com.entity.enums.PropertyClass;
 import com.entity.enums.PropertyType;
-import com.exeption.BadRequestExeption;
+import com.exeption.BadRequestException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.FindMe;
@@ -34,7 +34,7 @@ public class AdvertController {
     public String findAdvertsByParams(@RequestParam(required = false) String city,
                                       @RequestParam(required = false) String description,
                                       @RequestParam(required = false) String propertyType,
-                                      @RequestParam(required = false) String propertyClass) throws BadRequestExeption {
+                                      @RequestParam(required = false) String propertyClass) throws BadRequestException {
 
         Filter filter = new Filter();
         filter.setCity(city);
@@ -46,30 +46,30 @@ public class AdvertController {
             filter.setPropertyClass(PropertyClass.valueOf(propertyClass.toUpperCase().trim()));
         }catch (IllegalArgumentException e){
             e.printStackTrace();
-            throw new BadRequestExeption("Params(Param Class or/and ParamType) is/are  supposed to be in incorrect type");
+            throw new BadRequestException("Params(Param Class or/and ParamType) is/are  supposed to be in incorrect type");
         }
         return findMe.findAdvertsByParams(filter).toString();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/addAdvert", produces = "text/plain")
     @ResponseBody
-    public String addAdvert(@RequestParam String username, HttpServletRequest req) throws BadRequestExeption {
+    public String addAdvert(@RequestParam String username, HttpServletRequest req) throws BadRequestException {
         return findMe.addAdvert(username, mapToAdvert(req)).toString();
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/editAdvert", produces = "text/plain")
     @ResponseBody
-    public String editAdvert(@RequestParam String username, HttpServletRequest req) throws BadRequestExeption {
+    public String editAdvert(@RequestParam String username, HttpServletRequest req) throws BadRequestException {
         return findMe.editAdvert(username, mapToAdvert(req)).toString();
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/deleteAdvert", produces = "text/plain")
     @ResponseBody
-    public void deleteAdvert(@RequestParam String username, @RequestParam long id) throws BadRequestExeption {
+    public void deleteAdvert(@RequestParam String username, @RequestParam long id) throws BadRequestException {
         findMe.deleteAdvert(username, id);
     }
 
-    private Advert mapToAdvert(HttpServletRequest req) throws BadRequestExeption {
+    private Advert mapToAdvert(HttpServletRequest req) throws BadRequestException {
         try {
             return mapper.readValue(
                     mapper.writeValueAsString(mapper.readTree(req.getInputStream()).path("advert")),
@@ -77,7 +77,7 @@ public class AdvertController {
                     });
         } catch (IOException e) {
             e.printStackTrace();
-            throw new BadRequestExeption("Data cannot be mapped to Advert type");
+            throw new BadRequestException("Data cannot be mapped to Advert type");
         }
     }
 }

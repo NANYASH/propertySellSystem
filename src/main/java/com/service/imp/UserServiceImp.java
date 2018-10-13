@@ -3,7 +3,7 @@ package com.service.imp;
 
 import com.dao.UserDAO;
 import com.entity.User;
-import com.exeption.BadRequestExeption;
+import com.exeption.BadRequestException;
 import com.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,49 +19,49 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public User registerUser(User user) throws BadRequestExeption {
+    public User registerUser(User user) throws BadRequestException {
         try {
             userDAO.findByUsername(user.getUsername());
-        } catch (BadRequestExeption e) {
+        } catch (BadRequestException e) {
             user.setIsLoggedIn('N');
             return userDAO.save(user);
         }
-        throw new BadRequestExeption("User \"" + user.getUsername() + "\" already exists");
+        throw new BadRequestException("User \"" + user.getUsername() + "\" already exists");
     }
 
     @Override
-    public User editUser(User user) throws BadRequestExeption {
+    public User editUser(User user) throws BadRequestException {
         User userToUpdate = authenticate(user.getUsername());
         return userDAO.update(userToUpdate);
     }
 
     @Override
-    public void logIn(String username, String password) throws BadRequestExeption {
+    public void logIn(String username, String password) throws BadRequestException {
         User userToLogIn = authenticate(username, password);
         userToLogIn.setIsLoggedIn('Y');
         userDAO.update(userToLogIn);
     }
 
     @Override
-    public void logOut(String username) throws BadRequestExeption {
+    public void logOut(String username) throws BadRequestException {
         User userToLogOut = authenticate(username);
         userToLogOut.setIsLoggedIn('N');
         userDAO.update(userToLogOut);
     }
 
-    public User authenticate(String username) throws BadRequestExeption {
+    public User authenticate(String username) throws BadRequestException {
         User user = userDAO.findByUsername(username);
         if (user.getIsLoggedIn().equals('N'))
-            throw new BadRequestExeption("User \"" + username + "\" is not logged in");
+            throw new BadRequestException("User \"" + username + "\" is not logged in");
         return user;
     }
 
-    private User authenticate(String username, String password) throws BadRequestExeption {
+    private User authenticate(String username, String password) throws BadRequestException {
         User userToLogIn = userDAO.findByUsername(username);
         if (userToLogIn.getIsLoggedIn().equals('Y'))
-            throw new BadRequestExeption("User \"" + username + "\" is already logged in");
+            throw new BadRequestException("User \"" + username + "\" is already logged in");
         if (!userToLogIn.getPassword().equals(password))
-            throw new BadRequestExeption("Login failed. Please check your credentials and try again.");
+            throw new BadRequestException("Login failed. Please check your credentials and try again.");
         return userToLogIn;
     }
 }
