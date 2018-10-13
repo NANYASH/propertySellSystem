@@ -11,6 +11,7 @@ import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -32,7 +33,6 @@ public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
     public void delete(Advert advert) {
         getEntityManager().remove(getEntityManager().contains(advert) ? advert : getEntityManager().merge(advert));
     }
-
 
     //category
     //city
