@@ -1,6 +1,9 @@
 package com.dao;
 
 import com.entity.Advert;
+import com.util.Filter;
+
+import java.util.List;
 
 
 public interface AdvertDAO {
@@ -10,6 +13,8 @@ public interface AdvertDAO {
     Advert update(Advert advert);
 
     Advert findById(long id);
+
+    List<Advert> findByParameters(Filter filter);
 
     void delete(Advert advert);
 }

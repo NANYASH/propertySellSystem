@@ -10,6 +10,7 @@ import com.exeption.BadRequestExeption;
 import com.service.FindMe;
 import com.service.PropertyService;
 import com.service.UserService;
+import com.util.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,8 +50,16 @@ public class FindMeImp implements FindMe {
 
     }
 
+    @Override
+    public List<Advert> findAdvertsByParams(Filter filter) {
+       List<Advert> foundAdverts = advertDAO.findByParameters(filter);
+       if (filter.getPropertyClass()!=null)
+           return filterListByClass(foundAdverts,filter.getPropertyClass());
+       return foundAdverts;
+    }
 
-    public List<Advert> filterListByClass(List<Advert> filteredByTypeList,PropertyClass propertyClass) {
+
+    private List<Advert> filterListByClass(List<Advert> filteredByTypeList,PropertyClass propertyClass) {
          filteredByTypeList.stream().filter(advert -> advert.getProperty().equals(propertyClass));
          return filteredByTypeList;
     }

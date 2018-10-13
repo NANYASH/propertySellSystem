@@ -10,8 +10,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "USER2")
-@EqualsAndHashCode(exclude = {"id","username","password"})
-@ToString(exclude = {"id","username","password","firstName","lastName","phone","isLoggedIn"})
+@EqualsAndHashCode(exclude = {"adverts"})
+@ToString(exclude = {"adverts"})
 public class User{
 
     @SequenceGenerator(name = "USER2_SEQ", sequenceName = "USER2_SEQ", allocationSize = 1)

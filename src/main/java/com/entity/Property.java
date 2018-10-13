@@ -12,8 +12,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "PROPERTY")
-@EqualsAndHashCode(exclude = {"id","area","roomsQuantity","region","city","propertyType","propertyClass"})
-@ToString(exclude = {"id","area","roomsQuantity","region","city","propertyType","propertyClass"})
+@EqualsAndHashCode
+@ToString
 public class Property {
 
     @SequenceGenerator(name = "PROPERTY_SEQ", sequenceName = "PROPERTY_SEQ", allocationSize = 1)

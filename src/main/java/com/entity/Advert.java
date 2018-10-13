@@ -14,10 +14,8 @@ import java.util.Date;
 
 @Entity
 @Table(name = "ADVERT2")
-@EqualsAndHashCode(exclude = {"id","title","description","price","currency",
-"availableFromDate","availableToDate","author","property"})
-@ToString(exclude = {"id","title","description","price","currency",
-"availableFromDate","availableToDate","author","property"})
+@EqualsAndHashCode
+@ToString
 public class Advert {
 
     @SequenceGenerator(name = "ADVERT2_SEQ", sequenceName = "ADVERT2_SEQ", allocationSize = 1)
