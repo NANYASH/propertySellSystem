@@ -9,9 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,10 +33,6 @@ public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
         getEntityManager().remove(getEntityManager().contains(advert) ? advert : getEntityManager().merge(advert));
     }
 
-    //category
-    //city
-    //key words
-    //date(not filter)
     private List<Advert> findAdvert(Filter filter) {
         Map<String, Object> filterParms = new ObjectMapper().convertValue(filter, Map.class);
 
