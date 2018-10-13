@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -44,6 +47,7 @@ public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
         CriteriaQuery<Advert> criteria = builder.createQuery(Advert.class);
 
         Root<Advert> root = criteria.from(Advert.class);
+
         Join<Advert, Property> join = root.join("property");
 
         Predicate predicate = builder.conjunction();
@@ -55,6 +59,8 @@ public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
                 .map(param -> param.getKey())
                 .collect(Collectors.toSet());
 
+        predicate = builder.and(predicate, builder.between(builder.currentDate(),root.get("availableFromDate"),root.get("availableToDate")));
+
         for (String param : params) {
             if (param.equals("description")) {
                 predicate = builder.and(predicate, builder.like(root.get(param), "%"+filterParms.get(param)+"%"));
@@ -62,12 +68,9 @@ public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
             }
             predicate = builder.and(predicate, builder.equal(join.get(param), filterParms.get(param)));
         }
-
         if (filter.getPropertyType() != null)
             predicate = builder.and(predicate, builder.equal(join.get("propertyType"),filter.getPropertyType()));
-        if (predicate != null)
-            return getEntityManager().createQuery(criteria.select(root).where(predicate)).getResultList();
 
-        return getEntityManager().createQuery(criteria.select(root)).getResultList();
+        return getEntityManager().createQuery(criteria.select(root).where(predicate)).getResultList();
     }
 }

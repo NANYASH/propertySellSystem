@@ -6,7 +6,6 @@ import com.entity.enums.PropertyType;
 import lombok.Getter;
 import lombok.Setter;
 
-
 public class Filter {
     @Getter @Setter
     private String city;
