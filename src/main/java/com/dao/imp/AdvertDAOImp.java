@@ -57,7 +57,7 @@ public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
 
         for (String param : params) {
             if (param.equals("description")) {
-                predicate = builder.and(predicate, builder.like(root.get(param), filterParms.get(param).toString()));
+                predicate = builder.and(predicate, builder.like(root.get(param), "%"+filterParms.get(param)+"%"));
                 continue;
             }
             predicate = builder.and(predicate, builder.equal(join.get(param), filterParms.get(param)));
