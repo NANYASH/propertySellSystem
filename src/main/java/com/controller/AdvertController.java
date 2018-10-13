@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
@@ -40,11 +41,12 @@ public class AdvertController {
         filter.setCity(city);
         filter.setDescription(description);
         try {
-            if (propertyType!=null)
-            filter.setPropertyType(PropertyType.valueOf(propertyType.toUpperCase().trim()));
-            if (propertyClass!=null)
-            filter.setPropertyClass(PropertyClass.valueOf(propertyClass.toUpperCase().trim()));
-        }catch (IllegalArgumentException e){
+            if (propertyType != null) {
+                filter.setPropertyType(PropertyType.valueOf(propertyType.toUpperCase().trim()));
+                if (propertyClass != null)
+                    filter.setPropertyClass(PropertyClass.valueOf(propertyClass.toUpperCase().trim()));
+            }
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
             throw new BadRequestException("Params(Param Class or/and ParamType) is/are  supposed to be in incorrect type");
         }
