@@ -65,7 +65,6 @@ public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
 
         if (filter.getPropertyType() != null)
             predicate = builder.and(predicate, builder.equal(join.get("propertyType"),filter.getPropertyType()));
-
         if (predicate != null)
             return getEntityManager().createQuery(criteria.select(root).where(predicate)).getResultList();
 
