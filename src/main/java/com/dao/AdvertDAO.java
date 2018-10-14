@@ -14,7 +14,7 @@ public interface AdvertDAO {
 
     Advert findById(long id);
 
-    List<Advert> findByParameters(Filter filter);
+    List<Advert> findByParams(Filter filter);
 
     void delete(Advert advert);
 }

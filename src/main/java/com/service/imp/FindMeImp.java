@@ -52,7 +52,7 @@ public class FindMeImp implements FindMe {
 
     @Override
     public List<Advert> findAdvertsByParams(Filter filter) {
-       List<Advert> foundAdverts = advertDAO.findByParameters(filter);
+       List<Advert> foundAdverts = advertDAO.findByParams(filter);
        if (filter.getPropertyClass()!=null)
            return filterListByClass(foundAdverts,filter.getPropertyClass());
        return foundAdverts;

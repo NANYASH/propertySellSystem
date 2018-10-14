@@ -24,7 +24,7 @@ public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
     }
 
     @Override
-    public List<Advert> findByParameters(Filter filter) {
+    public List<Advert> findByParams(Filter filter) {
         return findAdvert(filter);
     }
 
