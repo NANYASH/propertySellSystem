@@ -37,20 +37,7 @@ public class AdvertController {
                                       @RequestParam(required = false) String propertyType,
                                       @RequestParam(required = false) String propertyClass) throws BadRequestException {
 
-        Filter filter = new Filter();
-        filter.setCity(city);
-        filter.setDescription(description);
-        try {
-            if (propertyType != null) {
-                filter.setPropertyType(PropertyType.valueOf(propertyType.toUpperCase().trim()));
-                if (propertyClass != null)
-                    filter.setPropertyClass(PropertyClass.valueOf(propertyClass.toUpperCase().trim()));
-            }
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            throw new BadRequestException("Params(Param Class or/and ParamType) is/are  supposed to be in incorrect type");
-        }
-        return findMe.findAdvertsByParams(filter).toString();
+        return findMe.findAdvertsByParams(validateParams(city,description,propertyType,propertyClass)).toString();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/addAdvert", produces = "text/plain")
@@ -81,5 +68,22 @@ public class AdvertController {
             e.printStackTrace();
             throw new BadRequestException("Data cannot be mapped to Advert type");
         }
+    }
+    
+    private Filter validateParams(String city,String description,String propertyType,String propertyClass) throws BadRequestException {
+        Filter filter = new Filter();
+        filter.setCity(city);
+        filter.setDescription(description);
+        try {
+            if (propertyType != null) {
+                filter.setPropertyType(PropertyType.valueOf(propertyType.toUpperCase().trim()));
+                if (propertyClass != null)
+                    filter.setPropertyClass(PropertyClass.valueOf(propertyClass.toUpperCase().trim()));
+            }
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            throw new BadRequestException("Params(Param Class or/and ParamType) is/are  supposed to be in incorrect type");
+        }
+        return filter;
     }
 }
