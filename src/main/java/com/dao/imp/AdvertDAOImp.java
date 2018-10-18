@@ -65,6 +65,8 @@ public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
 
         predicate = builder.and(predicate, builder.between(builder.currentDate(),root.get("availableFromDate"),root.get("availableToDate")));
 
-        return getEntityManager().createQuery(criteria.select(root).where(predicate)).setMaxResults(100).getResultList();
+        return getEntityManager().createQuery(criteria.select(root)
+                .where(predicate)
+                .orderBy(builder.desc(root.get("createdDate")))).setMaxResults(100).getResultList();
     }
 }
