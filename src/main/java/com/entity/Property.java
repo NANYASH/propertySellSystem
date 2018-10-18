@@ -1,7 +1,8 @@
 package com.entity;
 
 
-import com.entity.enums.PropertyClass;
+import com.entity.enums.ApartmentClass;
+import com.entity.enums.HouseFloors;
 import com.entity.enums.PropertyType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -45,7 +46,12 @@ public class Property {
     private PropertyType propertyType;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "PROPERTY_CLASS")
+    @Column(name = "APART_CLASS  ")
     @Getter @Setter
-    private PropertyClass propertyClass;
+    private ApartmentClass apartmentClass;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "HOUSE_FLOORS")
+    @Getter @Setter
+    private HouseFloors houseFloors;
 }

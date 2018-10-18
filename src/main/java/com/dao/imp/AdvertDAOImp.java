@@ -48,7 +48,8 @@ public class AdvertDAOImp extends GenericDAO<Advert> implements AdvertDAO{
         Set<String> params = filterParms.entrySet().stream()
                 .filter(param -> param.getValue() != null
                         && !param.getKey().equals("propertyClass")
-                        && !param.getKey().equals("propertyType"))
+                        && !param.getKey().equals("propertyType")
+                        && !param.getKey().equals("houseFloors"))
                 .map(param -> param.getKey())
                 .collect(Collectors.toSet());
 

@@ -42,6 +42,16 @@ public class Advert {
     @Getter @Setter
     private Currency currency;
 
+    @Column(name = "CREATE_DATE")
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @Getter @Setter
+    private Date createdDate;
+
+    @Column(name = "UPDATE_DATE")
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @Getter @Setter
+    private Date lastUpdateDate;
+
     @Column(name = "AVAILABLE_FROM_DATE")
     @JsonFormat(pattern = "dd/MM/yyyy")
     @Getter @Setter

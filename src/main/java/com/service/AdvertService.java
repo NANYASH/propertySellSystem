@@ -7,7 +7,7 @@ import com.util.Filter;
 
 import java.util.List;
 
-public interface FindMe {
+public interface AdvertService {
 
     Advert addAdvert(String username,Advert advert) throws BadRequestException;
     Advert editAdvert(String username,Advert advert) throws BadRequestException;

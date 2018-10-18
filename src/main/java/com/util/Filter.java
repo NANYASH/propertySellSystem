@@ -1,7 +1,8 @@
 package com.util;
 
 
-import com.entity.enums.PropertyClass;
+import com.entity.enums.ApartmentClass;
+import com.entity.enums.HouseFloors;
 import com.entity.enums.PropertyType;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,5 +15,7 @@ public class Filter {
     @Getter @Setter
     private PropertyType propertyType;
     @Getter @Setter
-    private PropertyClass propertyClass;
+    private ApartmentClass apartmentClass;
+    @Getter @Setter
+    private HouseFloors houseFloors;
 }

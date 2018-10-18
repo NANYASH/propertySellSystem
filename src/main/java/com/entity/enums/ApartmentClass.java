@@ -1,7 +1,7 @@
 package com.entity.enums;
 
 
-public enum PropertyClass {
+public enum ApartmentClass {
     LUXURY,
     BUSINESS,
     EСONOMY

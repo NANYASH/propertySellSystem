@@ -40,10 +40,6 @@ public class User{
     @Getter@Setter
     private String phone;
 
-    @Column(name = "LOG_IN_STATUS")
-    @Getter@Setter
-    private Character isLoggedIn;
-
     @OneToMany(targetEntity = Advert.class, fetch = FetchType.EAGER, mappedBy = "author")
     @Getter@Setter
     private List<Advert> adverts;

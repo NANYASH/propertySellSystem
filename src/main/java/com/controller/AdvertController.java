@@ -2,12 +2,13 @@ package com.controller;
 
 
 import com.entity.Advert;
-import com.entity.enums.PropertyClass;
+import com.entity.enums.ApartmentClass;
+import com.entity.enums.HouseFloors;
 import com.entity.enums.PropertyType;
 import com.exeption.BadRequestException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.service.FindMe;
+import com.service.AdvertService;
 import com.util.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,12 +22,12 @@ import java.io.IOException;
 
 @Controller
 public class AdvertController {
-    private FindMe findMe;
+    private AdvertService advertService;
     private ObjectMapper mapper;
 
     @Autowired
-    public AdvertController(FindMe findMe) {
-        this.findMe = findMe;
+    public AdvertController(AdvertService advertService) {
+        this.advertService = advertService;
         this.mapper = new ObjectMapper();
     }
 
@@ -35,27 +36,28 @@ public class AdvertController {
     public String findAdvertsByParams(@RequestParam(required = false) String city,
                                       @RequestParam(required = false) String description,
                                       @RequestParam(required = false) String propertyType,
-                                      @RequestParam(required = false) String propertyClass) throws BadRequestException {
+                                      @RequestParam(required = false) String appartClass,
+                                      @RequestParam(required = false) String houseFloors) throws BadRequestException {
 
-        return findMe.findAdvertsByParams(validateParams(city,description,propertyType,propertyClass)).toString();
+        return advertService.findAdvertsByParams(validateParams(city,description,propertyType,appartClass,houseFloors)).toString();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/addAdvert", produces = "text/plain")
     @ResponseBody
     public String addAdvert(@RequestParam String username, HttpServletRequest req) throws BadRequestException {
-        return findMe.addAdvert(username, mapToAdvert(req)).toString();
+        return advertService.addAdvert(username, mapToAdvert(req)).toString();
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/editAdvert", produces = "text/plain")
     @ResponseBody
     public String editAdvert(@RequestParam String username, HttpServletRequest req) throws BadRequestException {
-        return findMe.editAdvert(username, mapToAdvert(req)).toString();
+        return advertService.editAdvert(username, mapToAdvert(req)).toString();
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/deleteAdvert", produces = "text/plain")
     @ResponseBody
     public void deleteAdvert(@RequestParam String username, @RequestParam long id) throws BadRequestException {
-        findMe.deleteAdvert(username, id);
+        advertService.deleteAdvert(username, id);
     }
 
     private Advert mapToAdvert(HttpServletRequest req) throws BadRequestException {
@@ -70,15 +72,17 @@ public class AdvertController {
         }
     }
     
-    private Filter validateParams(String city,String description,String propertyType,String propertyClass) throws BadRequestException {
+    private Filter validateParams(String city,String description,String propertyType,String appartClass,String houseFloors) throws BadRequestException {
         Filter filter = new Filter();
         filter.setCity(city);
         filter.setDescription(description);
         try {
             if (propertyType != null) {
                 filter.setPropertyType(PropertyType.valueOf(propertyType.toUpperCase().trim()));
-                if (propertyClass != null)
-                    filter.setPropertyClass(PropertyClass.valueOf(propertyClass.toUpperCase().trim()));
+                if (appartClass != null)
+                    filter.setApartmentClass(ApartmentClass.valueOf(appartClass.toUpperCase().trim()));
+                if (houseFloors != null)
+                    filter.setHouseFloors(HouseFloors.valueOf(houseFloors.toUpperCase().trim()));
             }
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
