@@ -76,18 +76,27 @@ public class AdvertController {
         Filter filter = new Filter();
         filter.setCity(city);
         filter.setDescription(description);
+
         try {
             if (propertyType != null) {
                 filter.setPropertyType(PropertyType.valueOf(propertyType.toUpperCase().trim()));
-                if (appartClass != null)
+
+                if (propertyType.equals(PropertyType.APARTMENT) && appartClass != null)
                     filter.setApartmentClass(ApartmentClass.valueOf(appartClass.toUpperCase().trim()));
-                if (houseFloors != null)
+
+                if (propertyType.equals(PropertyType.HOUSE) && houseFloors != null)
                     filter.setHouseFloors(HouseFloors.valueOf(houseFloors.toUpperCase().trim()));
+
+                if (appartClass != null && houseFloors != null)
+                    return filter;
+
+                throw new BadRequestException("Such parameter cannot be applied for specified property type!");
             }
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
-            throw new BadRequestException("Params(Param Class or/and ParamType) is/are  supposed to be in incorrect type");
+            throw new BadRequestException("Params are  supposed to be in incorrect type");
         }
+
         return filter;
     }
 }
