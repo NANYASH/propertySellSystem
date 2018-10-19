@@ -32,7 +32,7 @@ public class UserServiceImp implements UserService {
     @Override
     public User editUser(User user) throws BadRequestException {
         User userToUpdate = userDAO.findByUsername(user.getUsername());
-        Session.authenticate(user);
+        Session.validateLogIn(user);
         return userDAO.update(userToUpdate);
     }
 

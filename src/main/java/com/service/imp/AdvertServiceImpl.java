@@ -35,7 +35,7 @@ public class AdvertServiceImpl implements AdvertService {
     @Override
     public Advert addAdvert(String username, Advert advert) throws BadRequestException {
         User author = userService.findUserByUsername(username);
-        Session.authenticate(author);
+        Session.validateLogIn(author);
         validateAdvert(advert);
         advert.setAuthor(author);
         advert.setCreatedDate(new Date());
@@ -46,7 +46,7 @@ public class AdvertServiceImpl implements AdvertService {
     @Override
     public Advert editAdvert(String username, Advert advert) throws BadRequestException {
         User author = userService.findUserByUsername(username);
-        Session.authenticate(author);
+        Session.validateLogIn(author);
         validateAdvert(advert.getId(),author);
         validateAdvert(advert);
         advert.setLastUpdateDate(new Date());
@@ -56,7 +56,7 @@ public class AdvertServiceImpl implements AdvertService {
     @Override
     public void deleteAdvert(String username, Long id) throws BadRequestException {
         User author = userService.findUserByUsername(username);
-        Session.authenticate(author);
+        Session.validateLogIn(author);
         Advert advertToDelete = validateAdvert(id,author);
         advertDAO.delete(advertToDelete);
 
