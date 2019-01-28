@@ -17,29 +17,25 @@ public class Session {
         return loggedInUsers;
     }
 
-
     public static void logIn(User user,String password) throws BadRequestException {
-        authenticate(user,password);
+        validateLogIn(user);
+        if (!user.getPassword().equals(password))
+            throw new BadRequestException("Login failed. Please check your credentials and try again.");
         loggedInUsers.add(user);
 
     }
 
-
     public static void logOut(User user) throws BadRequestException {
-        authenticate(user);
+        validateLogOut(user);
         loggedInUsers.remove(user);
     }
 
-
-    public static void authenticate(User user, String password) throws BadRequestException {
+    public static void validateLogIn(User user) throws BadRequestException {
         if (getLoggedInUsers().contains(user))
             throw new BadRequestException("User \"" + user.getUsername() + "\" is already logged in");
-        if (!user.getPassword().equals(password))
-            throw new BadRequestException("Login failed. Please check your credentials and try again.");
-
-    }
+        }
     
-    public static void authenticate(User user) throws BadRequestException {
+    public static void validateLogOut(User user) throws BadRequestException {
         if (!getLoggedInUsers().contains(user))
             throw new BadRequestException("User \"" + user.getUsername() + "\" is not logged in");
     }
